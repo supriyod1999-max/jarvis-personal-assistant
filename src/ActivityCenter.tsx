@@ -1,7 +1,7 @@
 import {useEffect,useState} from 'react';
 import {Activity,ArrowRight,Check,Code2,RefreshCw,Timer} from 'lucide-react';
 import './activity.css';
-import ActionFeed, {type ActionItem} from './ActionFeed';import ConversationLink from './ConversationLink';
+import ActionFeed, {type ActionItem} from './ActionFeed';import ConversationLink from './ConversationLink';
 type Snapshot={actions?:ActionItem[];checkedAt:number;unavailable:string[];coding?:{enabled:boolean;message?:string;sessions:{id:string;title:string;state?:string;status?:string;detail?:string;preview?:string;stale?:boolean}[]};transfers?:{id:string;name:string;bytes:number;offset:number;state:string}[];connections?:{services:{id:string;name:string;state:string;detail:string;href:string}[]};reviews?:{id:string;title:string;kind?:string}[];conversations?:{id:string;title:string}[]};
 const destinations=new Set(['#/settings','#/settings/assistant','#/settings/connections','#/whatsapp']);
 export default function ActivityCenter({workspace,compact=false}:{workspace:string;compact?:boolean}){
