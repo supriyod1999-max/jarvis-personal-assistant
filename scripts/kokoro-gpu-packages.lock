@@ -1,0 +1,7 @@
+# Windows x64, CPython 3.11. Pinned upstream CUDA wheel downloaded by download_kokoro_gpu.py.
+numpy==2.2.6 \
+    --hash=sha256:e8213002e427c69c45a52bbd94163084025f533a55a59d6f9c5b820774ef3303
+piper-tts==1.8.0 \
+    --hash=sha256:5da9bfdb05dfe15da3536859d422e605483ffa6d2b3ec2c5b9593bae6b5aa6a4
+./data/installers/kokoro-gpu/sherpa_onnx-1.13.8+cuda12.cudnn9-cp311-cp311-win_amd64.whl \
+    --hash=sha256:682e761793dc58a9e8124d674f071b20c8f6ef962180b7336bcc646f90464356

@@ -1,0 +1,52 @@
+plugins { id 'com.android.application' }
+android {
+    namespace 'org.jarvisassistant.app'
+    compileSdk 36
+    defaultConfig {
+        // A separate preview keeps device verification away from the owner's pairing and data.
+        applicationId providers.gradleProperty('jarvisDesignPreview').isPresent() ? 'org.jarvisassistant.app.design' : 'org.jarvisassistant.app'
+        minSdk 28
+        targetSdk 36
+        versionCode providers.gradleProperty('jarvisDesignPreview').isPresent() && providers.gradleProperty('jarvisPreviewNext').isPresent() ? 19 : 18
+        versionName '0.15.0'
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    }
+    buildFeatures { buildConfig true }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+    buildTypes { release { minifyEnabled false } }
+    packaging { jniLibs { useLegacyPackaging true } }
+    sourceSets.main.java.srcDir '../shared/src/main/java'
+}
+dependencies {
+    implementation 'com.google.android.gms:play-services-wearable:20.0.1'
+    implementation 'androidx.camera:camera-camera2:1.5.3'
+    implementation 'androidx.camera:camera-lifecycle:1.5.3'
+    implementation 'androidx.window:window-java:1.5.0'
+    implementation 'com.google.mlkit:face-detection:16.1.7'
+    implementation 'com.google.mlkit:pose-detection:18.0.0-beta5'
+    implementation 'org.tensorflow:tensorflow-lite:2.17.0'
+    implementation files('libs/sherpa-onnx-1.13.8.aar')
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.9.24'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test:runner:1.7.0'
+    androidTestImplementation 'androidx.test:core:1.7.0'
+}
+
+tasks.register('verifyWakeAssets') {
+    doLast {
+        def manifest = new groovy.json.JsonSlurper().parse(file('src/main/assets/wake/manifest.json'))
+        def allowed = ['encoder.onnx','decoder.onnx','joiner.onnx','tokens.txt','keywords.txt','LICENSE.txt'] as Set
+        if (manifest.files.keySet() != allowed) throw new GradleException('Unexpected wake assets manifest.')
+        def digest = { target -> java.security.MessageDigest.getInstance('SHA-256').digest(target.bytes).encodeHex().toString() }
+        manifest.files.each { name, expected -> if (digest(file('src/main/assets/wake/' + name)) != expected) throw new GradleException('Wake asset checksum changed: ' + name) }
+        if (manifest.engineArtifact.file != 'sherpa-onnx-1.13.8.aar' || digest(file('libs/' + manifest.engineArtifact.file)) != manifest.engineArtifact.sha256) throw new GradleException('Wake engine checksum changed.')
+    }
+}
+tasks.named('preBuild').configure { dependsOn('verifyWakeAssets') }
+tasks.register('verifyMusicAsset') {
+    doLast {
+        def hash = java.security.MessageDigest.getInstance('SHA-256').digest(file('src/main/assets/music/yamnet.tflite').bytes).encodeHex().toString()
+        if (hash != '4d8b4a53282dc83ef04e3e7dbc4fbc98082e34e44ed798e16c3a0cdd4c584faf') throw new GradleException('Music model checksum changed.')
+    }
+}
+tasks.named('preBuild').configure { dependsOn('verifyMusicAsset') }

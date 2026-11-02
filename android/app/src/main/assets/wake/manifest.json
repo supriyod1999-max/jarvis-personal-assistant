@@ -1,0 +1,26 @@
+{
+  "engine": "sherpa-onnx",
+  "version": "1.13.8",
+  "model": "sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01",
+  "modelSource": "https://github.com/k2-fsa/sherpa-onnx/releases/tag/kws-models",
+  "license": "Apache-2.0",
+  "keywordThreshold": 0.35,
+  "phrases": [
+    "HEY JARVIS",
+    "HELLO JARVIS",
+    "WAKE UP JARVIS"
+  ],
+  "files": {
+    "decoder.onnx": "f61ebd3eed3773a44d088d53dfae92dbb6aec4839f4dcaee2d402414741663a3",
+    "encoder.onnx": "1e721676515bcd42a186979733981213c66c80db680e1cc582dfedf3be76e678",
+    "joiner.onnx": "eae9da0c7e1e6c6a3f4cc42d167899c388f6c6701b94cb96320e4f55df79624c",
+    "keywords.txt": "691f63019e62229ffc6c7fa7abe099567a5d764f699c930d9e4f8cdea2642df4",
+    "LICENSE.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "tokens.txt": "fd2ded4050a55d2b1578870ba8697d02371980217806b7558bd0a5cc60f3ba53"
+  },
+  "engineArtifact": {
+    "file": "sherpa-onnx-1.13.8.aar",
+    "source": "https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.13.8/sherpa-onnx-1.13.8.aar",
+    "sha256": "633c24321e06b1fe79feafa03ea16cbc0f8a286641e2da3559bac91bdb13bd96"
+  }
+}

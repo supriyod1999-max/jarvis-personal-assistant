@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {resolveDeviceTarget} from '../server/device-target.mjs';
+const devices=[{id:'a',name:'Desk PC',role:'host',kind:'windows'},{id:'b',name:'Razr',kind:'android'},{id:'c',name:'Pixel',kind:'android'}];
+test('device routing never guesses between phones or changes source and destination',()=>{assert.equal(resolveDeviceTarget('open Razr files',devices).device.id,'b');assert.ok(resolveDeviceTarget('my phone files',devices).clarification);assert.ok(resolveDeviceTarget('send phone file to laptop',devices).clarification);assert.equal(resolveDeviceTarget('laptop files',devices).device.id,'a');assert.ok(resolveDeviceTarget('my watch files',devices).clarification);});

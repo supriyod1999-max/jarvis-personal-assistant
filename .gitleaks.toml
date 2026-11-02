@@ -1,0 +1,8 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Exact public SHA-256 of the bundled wake vocabulary text, not an API key"
+regexTarget = "secret"
+regexes = ['''^fd2ded4050a55d2b1578870ba8697d02371980217806b7558bd0a5cc60f3ba53$''']
+

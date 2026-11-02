@@ -1,0 +1,22 @@
+{
+  "id": "/",
+  "name": "JARVIS",
+  "short_name": "JARVIS",
+  "description": "Your personal space for thoughts, tasks, projects, and people.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#080c16",
+  "theme_color": "#080c16",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "share_target": {
+    "action": "/",
+    "method": "GET",
+    "params": { "title": "shareTitle", "text": "shareText", "url": "shareUrl" }
+  },
+  "shortcuts": [{ "name": "Capture a thought", "url": "/?capture=1" }]
+}

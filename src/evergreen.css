@@ -1,0 +1,14 @@
+.evergreen-settings { display: grid; gap: 16px; }
+.evergreen-settings h2 { font-size: 16px; line-height: 1.5; }
+.evergreen-settings p, .evergreen-settings summary { font-size: 12px; line-height: 1.75; overflow-wrap: anywhere; }
+.evergreen-settings fieldset { min-width: 0; display: grid; gap: 16px; border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+.evergreen-settings legend { font-size: 13px; padding: 0 7px; }
+.evergreen-settings label { display: flex; align-items: flex-start; gap: 12px; font-size: 12px; line-height: 1.7; cursor: pointer; }
+.evergreen-settings input[type=checkbox] { flex: 0 0 18px; width: 18px; height: 18px; margin-top: 2px; accent-color: var(--teal); }
+.evergreen-settings button { justify-self: start; max-width: 100%; white-space: normal; line-height: 1.6; min-height: 44px; }
+.evergreen-settings [role=alert] { color: #e5a894; }
+.evergreen-settings details summary { cursor: pointer; min-height: 32px; }
+.evergreen-settings details div { padding: 14px 0; border-top: 1px solid var(--line); }
+.evergreen-settings details h3 { font-size: 13px; margin-bottom: 6px; }
+.evergreen-settings .form-hint { margin-top: 0; }
+@media(max-width:600px) { .evergreen-settings fieldset { padding: 14px; } }

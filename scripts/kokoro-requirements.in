@@ -1,0 +1,3 @@
+# Dedicated CPU environment. Never install into Hermes or Chatterbox.
+sherpa-onnx==1.13.8
+numpy==2.2.6

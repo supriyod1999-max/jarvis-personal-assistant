@@ -1,0 +1,22 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { randomUUID } from 'node:crypto';
+import { directory } from './helpers.mjs';
+import { createProfileSettings } from '../server/profile-settings.mjs';
+const original = { id: 'owner', displayName: 'Example', addressAs: 'sir' };
+test('profile display changes are reviewed, revision checked, durable and cannot change identity or connections', async t => {
+  const cleanup = [], path = directory({ after: f => cleanup.push(f) }); let settings = createProfileSettings({ directory: path, profile: original, generate: async () => JSON.stringify({ addressAs: 'Captain', label: 'Personal' }) });
+  const conversationId = randomUUID(), id = randomUUID();
+  const review = await settings.run({ id, conversationId, afterTurnId: null, message: 'Call me Captain' }, () => {}).done;
+  assert.match(review.text, /Nothing saved/); assert.equal(settings.get().addressAs, 'sir');
+  const code = review.text.match(/approve profile ((?:\d ){3}\d)/)[1];
+  const saved = await settings.run({ id: randomUUID(), conversationId, afterTurnId: id, message: `approve profile ${code}` }, () => {}).done;
+  assert.match(saved.text, /Profile saved/); assert.equal(settings.get().addressAs, 'Captain');
+  const operationId = randomUUID(), value = { label: 'Personal', displayName: 'Example Owner', addressAs: '' };
+  const result = settings.update({ operationId, baseRev: 1, value, approved: true });
+  assert.deepEqual(settings.update({ operationId, baseRev: 1, value, approved: true }), result);
+  assert.throws(() => settings.update({ operationId: randomUUID(), baseRev: 1, value, approved: true }), /elsewhere/);
+  settings.close(); settings = createProfileSettings({ directory: path, profile: original, generate: async () => '{}' });
+  assert.equal(settings.get().label, 'Personal'); assert.equal(settings.get().rev, 2); assert.equal(settings.get().id, 'owner');
+  settings.close(); cleanup.forEach(f => f());
+});

@@ -1,0 +1,39 @@
+{
+  "name": "jarvis-personal-assistant",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "desktop": "electron desktop",
+    "desktop:package": "node scripts/package-desktop.mjs",
+    "dev": "node scripts/dev.mjs",
+    "build": "tsc --noEmit && vite build && node scripts/build-sw.mjs",
+    "start": "node server/index.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:browser": "playwright test",
+    "check": "npm run test && npm run build",
+    "audit:public": "node scripts/audit-public.mjs"
+  },
+  "dependencies": {
+    "lucide-react": "^0.468.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@electron/packager": "20.3.0",
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.1.0",
+    "electron": "44.5.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.2",
+    "zod": "4.4.3"
+  },
+  "description": "A local-first personal assistant with reviewed actions and optional private integrations.",
+  "license": "MIT"
+}

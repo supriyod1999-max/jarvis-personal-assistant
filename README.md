@@ -123,6 +123,7 @@ Development uses loopback ports 5173 and 4317. Browser checks use isolated `.tes
 - [Local speech installation and checks](docs/VOICE-SETUP.md)
 - [Configuration](docs/CONFIGURATION.md)
 - [Accounts and optional integrations](docs/INTEGRATIONS.md)
+- [Optional WhatsApp gateway setup](docs/OPENWA.md)
 - [Architecture and data flow](docs/ARCHITECTURE.md)
 - [Development and troubleshooting](docs/DEVELOPMENT.md)
 - [Public-release review](docs/PUBLIC-RELEASE.md)

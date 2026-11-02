@@ -1,0 +1,31 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { once } from 'node:events';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { additionalProfiles } from '../server/profiles.mjs';
+import { privateRequestAllowed } from '../server/access.mjs';
+import { createApplication } from '../server/index.mjs';
+import { directory, entry, mutation } from './helpers.mjs';
+import { fixtureHermes } from './fixtures/hermes.mjs';
+test('separate profile servers keep records, chats, reviews and exports isolated', async t => {
+  const cleanups = [], root = directory({ after: f => cleanups.push(f) });
+  writeFileSync(join(root, 'instances.json'), JSON.stringify({ version: 1, profiles: [{ id: 'partner', displayName: 'Partner', addressAs: '', port: 14361 }] }));
+  const profile = additionalProfiles(root)[0];
+  const owner = createApplication({ directory: root, port: 14360, hermes: fixtureHermes(), privateAccess: null });
+  const partner = createApplication({ ...profile, hermes: fixtureHermes(), privateAccess: null });
+  owner.listen(); partner.listen(); await Promise.all([once(owner.server, 'listening'), once(partner.server, 'listening')]);
+  t.after(async () => { await Promise.all([owner.close(), partner.close()]); cleanups.forEach(f => f()); });
+  const saved = owner.store.mutate(mutation(owner.store, entry({ title: 'Owner-only record' }))).record;
+  assert.deepEqual(partner.store.records(), []); assert.notEqual(owner.store.serverId, partner.store.serverId);
+  const other = await (await fetch('http://127.0.0.1:14361/api/export')).json(); assert.deepEqual(other.records, []);
+  const info = await (await fetch('http://127.0.0.1:14361/api/profile')).json(); assert.equal(info.displayName, 'Partner'); assert.equal(info.addressAs, '');
+  const response = await fetch('http://127.0.0.1:14361/api/mutations', { method: 'POST', headers: { 'X-Second-Brain': '1', 'Content-Type': 'application/json' }, body: JSON.stringify(mutation(owner.store, saved, saved.rev)) });
+  assert.equal(response.status, 400); assert.deepEqual(partner.store.records(), []);
+});
+test('private profiles require their own exact identity and origin, including the second port', () => {
+  const origin = 'https://test.tailtest.ts.net:8443', config = { origin, ownerLogin: 'partner@example.test', port: 4328 };
+  const request = { method: 'POST', socket: { remoteAddress: '127.0.0.1' }, headers: { host: 'test.tailtest.ts.net:8443', origin, 'tailscale-user-login': 'partner@example.test' } };
+  assert.equal(privateRequestAllowed(request, config), true);
+  for (const patch of [{ origin: 'https://test.tailtest.ts.net' }, { 'tailscale-user-login': 'owner@example.test' }, { host: 'test.tailtest.ts.net' }]) assert.equal(privateRequestAllowed({ ...request, headers: { ...request.headers, ...patch } }, config), false);
+});

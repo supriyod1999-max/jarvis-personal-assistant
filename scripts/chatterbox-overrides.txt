@@ -1,0 +1,3 @@
+# RTX 5060 requires a Blackwell-capable CUDA build. Keep the paired versions.
+torch==2.9.1+cu128
+torchaudio==2.9.1+cu128

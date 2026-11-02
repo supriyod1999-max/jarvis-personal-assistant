@@ -1,0 +1,25 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {once} from 'node:events';
+import {randomUUID} from 'node:crypto';
+import {createApplication} from '../server/index.mjs';
+import {directory} from './helpers.mjs';
+import {fixtureHermes} from './fixtures/hermes.mjs';
+test('activity and response ownership require the current unlocked session',async t=>{
+ const cleanups=[],data=directory({after:fn=>cleanups.push(fn)});
+ const app=createApplication({port:14402,directory:data,hermes:fixtureHermes()});
+ t.after(async()=>{await app.close();for(const clean of cleanups)clean();});app.listen();await once(app.server,'listening');
+ const base='http://127.0.0.1:14402',headers={'X-Second-Brain':'1','Content-Type':'application/json'};
+ const post=(route,body,cookie)=>fetch(base+route,{method:'POST',headers:{...headers,...(cookie?{Cookie:cookie}:{})},body:JSON.stringify(body)});
+ const setup=await post('/api/lock/setup',{newPin:'654321',confirmPin:'654321'});assert.equal(setup.status,200);const cookie=setup.headers.get('set-cookie').split(';')[0];
+ assert.equal((await fetch(base+'/api/activity')).status,401);
+ const activity=await fetch(base+'/api/activity',{headers:{Cookie:cookie}});assert.equal(activity.status,200);assert.equal(activity.headers.get('cache-control'),'no-store');assert.ok(Array.isArray((await activity.json()).unavailable));
+ assert.equal((await post('/api/voice-focus/claim',{attempt:randomUUID()})).status,401);
+ const claim=await post('/api/voice-focus/claim',{attempt:randomUUID()},cookie);assert.equal(claim.status,200);const token=(await claim.json()).token;assert.ok(token);
+ const second=await post('/api/lock/unlock',{pin:'654321'});const other=second.headers.get('set-cookie').split(';')[0];
+ assert.equal((await(await post('/api/voice-focus/renew',{token},other)).json()).granted,false);
+ await post('/api/voice-focus/release',{token},other);assert.equal((await(await post('/api/voice-focus/claim',{attempt:randomUUID()},other)).json()).granted,false);
+ await post('/api/lock/lock',{},cookie);
+ assert.equal((await fetch(base+'/api/activity',{headers:{Cookie:cookie}})).status,401);
+ assert.equal((await post('/api/voice-focus/renew',{token},cookie)).status,401);
+});

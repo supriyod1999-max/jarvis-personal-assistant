@@ -1,0 +1,7 @@
+package org.jarvisassistant.app;
+import com.google.android.gms.wearable.*;
+public final class WatchListener extends WearableListenerService {
+    @Override public void onChannelOpened(ChannelClient.Channel channel){WatchBridgeService bridge=WatchBridgeService.current;if(bridge!=null)bridge.channel(channel);else Wearable.getChannelClient(this).close(channel);}
+    @Override public void onChannelClosed(ChannelClient.Channel channel,int reason,int error){WatchBridgeService bridge=WatchBridgeService.current;if(bridge!=null)bridge.disconnected(channel);}
+    @Override public void onMessageReceived(MessageEvent message){if(WatchRpcRelay.KEY.equals(message.getPath())&&message.getData().length<3000){android.content.SharedPreferences preferences=getSharedPreferences("WatchLink",MODE_PRIVATE);if(!message.getSourceNodeId().equals(preferences.getString("node","")))return;try{org.json.JSONObject value=new org.json.JSONObject(new String(message.getData(),java.nio.charset.StandardCharsets.UTF_8));byte[] key=android.util.Base64.decode(value.getString("publicKey"),android.util.Base64.NO_WRAP);String id=AppReleases.hex(java.security.MessageDigest.getInstance("SHA-256").digest(key));if(!id.equals(value.getString("watchId"))||key.length>600)return;preferences.edit().putString("publicKey",value.getString("publicKey")).putString("watchId",id).apply();}catch(Exception ignored){}return;}WatchBridgeService bridge=WatchBridgeService.current;if(bridge!=null && WatchWire.COMMAND.equals(message.getPath()))bridge.command(message.getSourceNodeId(),message.getData());}
+}

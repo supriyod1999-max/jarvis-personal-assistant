@@ -1,0 +1,32 @@
+package org.jarvisassistant.app;
+import android.content.Context;
+import androidx.test.platform.app.InstrumentationRegistry;
+import android.util.Base64;
+import org.json.*;
+import org.junit.*;
+import static org.junit.Assert.*;
+import java.io.*;
+import java.net.*;
+import java.nio.charset.StandardCharsets;
+import java.security.*;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.*;
+
+/** Actual Android Keystore signatures and bounded voice transport against a synthetic HTTPS fixture. */
+public class CompanionVoiceChecks {
+    private static final String ORIGIN="https://companion-fixture.tailtest.ts.net";
+    private static PublicKey publicKey;private static String deviceId,enrollment;private static boolean trusted;private static final Map<String,JSONObject> pending=new HashMap<>();private static final List<String> calls=new ArrayList<>();
+    private static String nonce(){byte[] bytes=new byte[24];new SecureRandom().nextBytes(bytes);return Base64.encodeToString(bytes,Base64.URL_SAFE|Base64.NO_WRAP|Base64.NO_PADDING);}
+    private static boolean valid(String payload,String proof)throws Exception{Signature signature=Signature.getInstance("SHA256withRSA");signature.initVerify(publicKey);signature.update(payload.getBytes(StandardCharsets.UTF_8));return signature.verify(Base64.decode(proof,Base64.NO_WRAP));}
+    @BeforeClass public static void fixture(){URL.setURLStreamHandlerFactory(protocol->"https".equals(protocol)?new URLStreamHandler(){protected URLConnection openConnection(URL url){assertEquals(ORIGIN,url.getProtocol()+"://"+url.getHost());return new HttpURLConnection(url){private final ByteArrayOutputStream body=new ByteArrayOutputStream();private byte[] result;public void connect(){}public void disconnect(){}public boolean usingProxy(){return false;}public OutputStream getOutputStream(){return body;}public int getResponseCode()throws IOException{try{result=respond(url.getPath(),new JSONObject(new String(body.toByteArray(),StandardCharsets.UTF_8)),getRequestProperty("Cookie"));return 200;}catch(Exception error){throw new IOException(error);}}public InputStream getInputStream(){return new ByteArrayInputStream(result);}};}}:null);}
+    private static byte[] respond(String path,JSONObject input,String cookie)throws Exception{
+        JSONObject result=new JSONObject();if(path.endsWith("/prepare")){assertEquals("synthetic-owner-session",cookie);assertTrue(input.getBoolean("voice"));assertTrue(input.getBoolean("camera"));publicKey=KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(Base64.decode(input.getString("publicKey"),Base64.NO_WRAP)));deviceId=CompanionClient.digest(publicKey.getEncoded());String id=UUID.randomUUID().toString();long expires=System.currentTimeMillis()+60000;enrollment=String.join("\n","JARVIS_COMPANION_ENROLL_V1",deviceId,id,"voice,camera",nonce(),Long.toString(expires));result.put("payload",enrollment).put("requestId",id).put("deviceId",deviceId).put("expiresAtMs",expires);
+        }else if(path.endsWith("/approve")){assertEquals("synthetic-owner-session",cookie);assertTrue(valid(enrollment,input.getString("signature")));trusted=true;result.put("paired",true).put("deviceId",deviceId);
+        }else if(path.endsWith("/challenge")){assertEquals("",cookie);assertTrue(trusted);assertEquals(deviceId,input.getString("deviceId"));String operation=input.getString("operation"),args=input.getString("args"),id=UUID.randomUUID().toString();assertTrue(operation.startsWith("voice."));long expires=System.currentTimeMillis()+30000;String payload=String.join("\n","JARVIS_COMPANION_REQUEST_V1",deviceId,id,operation,CompanionClient.digest(args.getBytes(StandardCharsets.UTF_8)),nonce(),Long.toString(expires));pending.put(id,new JSONObject().put("operation",operation).put("args",new JSONObject(args)).put("payload",payload));result.put("requestId",id).put("payload",payload).put("expiresAtMs",expires);
+        }else if(path.endsWith("/execute")){assertEquals("",cookie);JSONObject request=pending.remove(input.getString("requestId"));assertNotNull(request);assertTrue(valid(request.getString("payload"),input.getString("signature")));String operation=request.getString("operation");calls.add(operation);JSONObject args=request.getJSONObject("args");if(operation.equals("voice.transcribe")){byte[] wav=Base64.decode(input.getString("data"),Base64.NO_WRAP);assertEquals(args.getString("sha256"),CompanionClient.digest(wav));assertEquals("RIFF",new String(wav,0,4,StandardCharsets.US_ASCII));result.put("text","What is two plus two?");}else if(operation.equals("voice.reply")){assertEquals("What is two plus two?",args.getString("text"));assertNotNull(UUID.fromString(args.getString("conversationId")));result.put("reply","Four.");}else if(operation.equals("voice.speak")){assertEquals("Four.",args.getString("text"));return VoiceRules.wav(new byte[16000]);}else throw new AssertionError("Unexpected scoped operation");
+        }else throw new AssertionError("No cookie-based voice fallback is permitted: "+path);return result.toString().getBytes(StandardCharsets.UTF_8);
+    }
+    @Test public void enrolledGeneralVoiceUsesSeparateSignedKeyAndNoWorkspaceCookieOrMicrophone()throws Exception{
+        Context context=InstrumentationRegistry.getInstrumentation().getTargetContext();assertEquals("org.jarvisassistant.app.design",context.getPackageName());String windows=WindowsApprovalSigner.existingDeviceId();try(CompanionClient connection=new CompanionClient(context,ORIGIN)){connection.enroll("synthetic-owner-session","Synthetic pet");}assertTrue(CompanionClient.enrolled(context,ORIGIN));CompanionVoice voice=new CompanionVoice(context,ORIGIN);String heard=voice.transcribe(new byte[16000]);JSONObject reply=voice.reply(heard,UUID.randomUUID().toString(),UUID.randomUUID().toString());byte[] audio=voice.audio(reply.getString("reply"));assertTrue(audio.length>44);Arrays.fill(audio,(byte)0);voice.cancel();boolean cancelled=false;try{voice.reply("Cancelled",UUID.randomUUID().toString(),UUID.randomUUID().toString());}catch(IOException expected){cancelled=true;}assertTrue("Cancelled voice must not send another network request",cancelled);assertEquals(Arrays.asList("voice.transcribe","voice.reply","voice.speak"),calls);assertEquals(windows,WindowsApprovalSigner.existingDeviceId());assertFalse(VoiceService.running);assertTrue(context.getSystemService(android.media.AudioManager.class).getActiveRecordingConfigurations().isEmpty());
+    }
+}

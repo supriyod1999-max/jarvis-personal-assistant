@@ -1,0 +1,41 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { once } from 'node:events';
+import { request } from 'node:http';
+import { createHash,randomUUID } from 'node:crypto';
+import { createApplication } from '../server/index.mjs';
+import { createFileShares } from '../server/file-shares.mjs';
+import { directory } from './helpers.mjs';
+import { fixtureHermes } from './fixtures/hermes.mjs';
+
+test('file transfers use the PIN and private owner boundary and return exact streamed bytes',async t=>{
+  const cleanups=[],data=directory({after:fn=>cleanups.push(fn)}),root=directory({after:fn=>cleanups.push(fn)});
+  const files=createFileShares({directory:data,discoverDrives:async()=>[{id:'drive-test',path:root,label:'Test drive'}]});
+  const app=createApplication({port:14385,directory:data,hermes:fixtureHermes(),files,privateAccess:{version:1,origin:'https://laptop.tailtest.ts.net',ownerLogin:'owner@example.test',port:14386}});
+  t.after(async()=>{await app.close();for(const cleanup of cleanups)cleanup();});app.listen();await once(app.server,'listening');
+  const base='http://127.0.0.1:14385',headers={'X-Second-Brain':'1','Content-Type':'application/json'};
+  assert.equal((await fetch(base+'/api/files/status')).status,403);
+  assert.equal((await fetch(base+'/api/devices')).status,403);
+  const setup=await fetch(base+'/api/lock/setup',{method:'POST',headers,body:JSON.stringify({newPin:'654321',confirmPin:'654321'})});const cookie=setup.headers.get('set-cookie').split(';')[0],auth={Cookie:cookie};
+  const status=await(await fetch(base+'/api/files/status',{headers:auth})).json();assert.equal(status.fullAccess,true);
+  assert.equal(status.maximumBytes,20*1024**3);assert.equal(status.resumableUploads,true);assert.equal(app.server.requestTimeout,0);assert.equal(app.phoneServer.requestTimeout,0);assert.equal(app.server.headersTimeout,15000);
+  const transfer={id:randomUUID(),share:'drive-test',path:'',name:'resumable.txt',size:4};
+  const apiJson=async(path,value)=>fetch(base+'/api/files/transfers/'+path,{method:'POST',headers:{...headers,...auth},body:JSON.stringify(value)});
+  assert.equal((await fetch(base+'/api/files/transfers/begin',{method:'POST',headers,body:JSON.stringify(transfer)})).status,401);
+  assert.equal((await apiJson('begin',transfer)).status,201);
+  const part=await fetch(base+'/api/files/transfers/chunk?id='+transfer.id+'&offset=0',{method:'POST',headers:{...auth,'Content-Type':'application/octet-stream','X-Second-Brain':'1','X-Content-SHA256':createHash('sha256').update('TEST').digest('hex')},body:'TEST'});
+  assert.equal(part.status,200);assert.equal((await part.json()).offset,4);
+  assert.equal((await apiJson('finish',{id:transfer.id})).status,200);
+  const devices=await fetch(base+'/api/devices',{headers:auth});assert.equal(devices.headers.get('cache-control'),'no-store');assert.equal((await devices.json()).devices[0].capabilities.files,true);
+  const url=base+'/api/files/upload?share=drive-test&name=example.txt';assert.equal((await fetch(url,{method:'POST',headers:{...auth,'Content-Type':'application/octet-stream','X-Second-Brain':'1'},body:'Exact synthetic file'})).status,201);
+  const downloaded=await fetch(base+'/api/files/download?share=drive-test&path=example.txt',{headers:auth});assert.equal(downloaded.headers.get('cache-control'),'no-store');assert.match(downloaded.headers.get('content-disposition'),/attachment/);assert.equal(await downloaded.text(),'Exact synthetic file');
+  const info=await fetch(base+'/api/files/download?share=drive-test&path=example.txt',{method:'HEAD',headers:auth});const etag=info.headers.get('etag');assert.match(etag,/^"[a-f0-9]{64}"$/);assert.equal(info.headers.get('accept-ranges'),'bytes');assert.equal(await info.text(),'');
+  const range=await fetch(base+'/api/files/download?share=drive-test&path=example.txt',{headers:{...auth,Range:'bytes=6-14','If-Match':etag}});assert.equal(range.status,206);assert.equal(await range.text(),'synthetic');assert.equal(range.headers.get('content-range'),'bytes 6-14/20');
+  assert.equal((await fetch(base+'/api/files/download?share=drive-test&path=example.txt',{headers:{...auth,Range:'bytes=0-4','If-Match':'"different"'}})).status,412);
+  assert.equal((await fetch(base+'/api/files/download?share=drive-test&path=example.txt',{headers:{...auth,Range:'bytes=20-99'}})).status,416);
+  async function phone(login){return new Promise((done,reject)=>{const req=request({hostname:'127.0.0.1',port:14386,path:'/api/files/status',headers:{Host:'laptop.tailtest.ts.net','Tailscale-User-Login':login,Cookie:cookie}},res=>{let body='';res.on('data',chunk=>body+=chunk);res.on('end',()=>done({status:res.statusCode,body:JSON.parse(body)}));});req.on('error',reject);req.end();});}
+  assert.equal((await phone('attacker@example.test')).status,403);assert.equal((await phone('owner@example.test')).body.shares[0].path,undefined);
+  await fetch(base+'/api/lock/lock',{method:'POST',headers:{...headers,...auth},body:'{}'});assert.equal((await fetch(base+'/api/files/status',{headers:auth})).status,401);
+  assert.equal((await fetch(base+'/api/devices',{headers:auth})).status,401);
+  assert.equal((await fetch(base+'/api/files/transfers/status?id='+transfer.id,{headers:auth})).status,401);
+});

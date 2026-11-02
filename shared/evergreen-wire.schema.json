@@ -1,0 +1,992 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:jarvis:evergreen:jarvis:wire:v1",
+  "title": "Evergreen JARVIS wire contract v1",
+  "description": "Wire envelopes only. Real access remains gated. API-CONTRACT.md/native validators define typed input constraints; this schema does not confer authority.",
+  "$defs": {
+    "pilotMode": {
+      "type": "string",
+      "enum": ["personal", "household"]
+    },
+    "connection": {
+      "type": "object",
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "mode": { "$ref": "#/$defs/pilotMode" },
+        "householdId": { "type": "string", "pattern": "^HH-[A-Za-z0-9_-]{1,100}$" },
+        "memberUid": { "$ref": "#/$defs/uid" },
+        "scopes": { "$ref": "#/$defs/scopes" },
+        "enabled": { "type": "boolean" },
+        "exchangeComplete": { "type": "boolean" },
+        "createdAt": { "$ref": "#/$defs/timestamp" },
+        "revokedAt": { "type": ["string", "null"], "format": "date-time" },
+        "lastSyncAt": { "type": ["string", "null"], "format": "date-time" }
+      },
+      "required": ["id", "mode", "householdId", "memberUid", "scopes", "enabled", "exchangeComplete", "createdAt", "revokedAt", "lastSyncAt"],
+      "additionalProperties": false
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{8,128}$"
+    },
+    "secret": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{43,128}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "uid": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "domain": {
+      "type": "string",
+      "enum": [
+        "tasks",
+        "planner",
+        "study",
+        "income",
+        "expenses",
+        "splits",
+        "loans",
+        "repayments",
+        "investments",
+        "pantry",
+        "recipes",
+        "meals",
+        "shopping",
+        "habits",
+        "health",
+        "running",
+        "family",
+        "memories",
+        "photos",
+        "notes",
+        "career"
+      ]
+    },
+    "scope": {
+      "type": "string",
+      "enum": [
+        "tasks:read",
+        "tasks:write",
+        "planner:read",
+        "planner:write",
+        "study:read",
+        "study:write",
+        "income:read",
+        "income:write",
+        "expenses:read",
+        "expenses:write",
+        "splits:read",
+        "splits:write",
+        "loans:read",
+        "loans:write",
+        "repayments:read",
+        "repayments:write",
+        "investments:read",
+        "investments:write",
+        "pantry:read",
+        "pantry:write",
+        "recipes:read",
+        "recipes:write",
+        "meals:read",
+        "meals:write",
+        "shopping:read",
+        "shopping:write",
+        "habits:read",
+        "habits:write",
+        "health:read",
+        "health:write",
+        "running:read",
+        "running:write",
+        "family:read",
+        "family:write",
+        "memories:read",
+        "memories:write",
+        "photos:read",
+        "photos:write",
+        "notes:read",
+        "notes:write",
+        "career:read",
+        "career:write"
+      ]
+    },
+    "scopes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 42,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/scope"
+      },
+      "$comment": "A :write scope also needs the matching :read scope; server enforces current member policy."
+    },
+    "actionType": {
+      "type": "string",
+      "enum": [
+        "career.addPlannerTask",
+        "career.archiveOpportunity",
+        "career.archiveResume",
+        "career.saveOpportunity",
+        "career.saveProfile",
+        "career.saveResume",
+        "career.saveStory",
+        "family.check",
+        "family.interest",
+        "family.remove-stop",
+        "family.save",
+        "family.save-stop",
+        "family.schedule",
+        "family.update",
+        "habit.check",
+        "habit.delete",
+        "habit.save",
+        "health.intake.delete",
+        "health.intake.record",
+        "health.plan.check",
+        "health.plan.delete",
+        "health.plan.save",
+        "income.work.delete",
+        "income.work.save",
+        "investment.bank.delete",
+        "investment.bank.save",
+        "investment.goal.delete",
+        "investment.goal.save",
+        "investment.holding.delete",
+        "investment.holding.save",
+        "investment.sip.delete",
+        "investment.sip.save",
+        "loan.delete",
+        "loan.save",
+        "meal.delete",
+        "meal.plan",
+        "memory.milestone.archive",
+        "memory.milestone.save",
+        "notes.notebook.delete",
+        "notes.notebook.save",
+        "pantry.delete",
+        "pantry.save",
+        "purchase.create",
+        "recipe.delete",
+        "recipe.save",
+        "repayment.record",
+        "run.delete",
+        "run.record",
+        "run.rename",
+        "schedule.create",
+        "schedule.delete",
+        "schedule.update",
+        "shopping.add",
+        "shopping.check",
+        "shopping.remove",
+        "study.assessment.save",
+        "study.class.save",
+        "study.course.save",
+        "study.session.create",
+        "study.topic.save",
+        "task.complete",
+        "task.create",
+        "task.delete",
+        "task.update"
+      ]
+    },
+    "action": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/actionType"
+        },
+        "input": {
+          "type": "object",
+          "$comment": "Typed per-action inputs and relationship validations: API-CONTRACT.md and existing native validators. This wire schema does NOT replace them."
+        },
+        "recordId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 800
+        },
+        "expectedRevision": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "type",
+        "input"
+      ],
+      "additionalProperties": false
+    },
+    "cursor": {
+      "type": "object",
+      "properties": {
+        "grantId": {
+          "$ref": "#/$defs/id"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 50000
+        }
+      },
+      "required": [
+        "grantId",
+        "sequence"
+      ],
+      "additionalProperties": false
+    },
+    "binding": {
+      "type": "object",
+      "properties": {
+        "grantId": {
+          "$ref": "#/$defs/id"
+        },
+        "householdId": {
+          "type": "string",
+          "pattern": "^HH-[A-Za-z0-9_-]{1,100}$"
+        },
+        "memberUid": {
+          "$ref": "#/$defs/uid"
+        }
+      },
+      "required": [
+        "grantId",
+        "householdId",
+        "memberUid"
+      ],
+      "additionalProperties": false
+    },
+    "gap": {
+      "type": "object",
+      "properties": {
+        "domain": {
+          "$ref": "#/$defs/domain"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "domain",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "pairRequest": {
+      "type": "object",
+      "properties": {
+        "credentialHash": {
+          "$ref": "#/$defs/sha256"
+        },
+        "codeChallenge": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{43}$"
+        }
+      },
+      "required": [
+        "credentialHash",
+        "codeChallenge"
+      ],
+      "additionalProperties": false
+    },
+    "approvalRequest": {
+      "type": "object",
+      "properties": {
+        "pairingId": {
+          "$ref": "#/$defs/id"
+        },
+        "scopes": {
+          "$ref": "#/$defs/scopes"
+        },
+        "confirm": {
+          "const": true
+        }
+      },
+      "required": [
+        "pairingId",
+        "scopes",
+        "confirm"
+      ],
+      "additionalProperties": false
+    },
+    "exchangeRequest": {
+      "type": "object",
+      "properties": {
+        "pairingId": {
+          "$ref": "#/$defs/id"
+        },
+        "verifier": {
+          "$ref": "#/$defs/secret"
+        },
+        "secret": {
+          "$ref": "#/$defs/secret"
+        }
+      },
+      "required": [
+        "pairingId",
+        "verifier",
+        "secret"
+      ],
+      "additionalProperties": false
+    },
+    "discoveryRequest": {
+      "type": "object",
+      "properties": {
+        "confirm": {
+          "const": true
+        }
+      },
+      "required": [
+        "confirm"
+      ],
+      "additionalProperties": false
+    },
+    "revocationRequest": {
+      "type": "object",
+      "properties": {
+        "grantId": {
+          "$ref": "#/$defs/id"
+        },
+        "confirm": {
+          "const": true
+        }
+      },
+      "required": [
+        "grantId",
+        "confirm"
+      ],
+      "additionalProperties": false
+    },
+    "rotationRequest": {
+      "type": "object",
+      "properties": {
+        "newSecret": {
+          "$ref": "#/$defs/secret"
+        },
+        "rotationId": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "newSecret",
+        "rotationId"
+      ],
+      "additionalProperties": false
+    },
+    "quoteRequest": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string",
+          "enum": [
+            "AUD",
+            "USD",
+            "INR",
+            "EUR",
+            "GBP",
+            "NZD",
+            "CAD",
+            "SGD",
+            "JPY"
+          ]
+        },
+        "date": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "currency",
+        "date"
+      ],
+      "additionalProperties": false
+    },
+    "prepareRequest": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "$ref": "#/$defs/id"
+        },
+        "action": {
+          "$ref": "#/$defs/action"
+        }
+      },
+      "required": [
+        "requestId",
+        "action"
+      ],
+      "additionalProperties": false
+    },
+    "commitRequest": {
+      "type": "object",
+      "properties": {
+        "proposalId": {
+          "$ref": "#/$defs/sha256"
+        },
+        "digest": {
+          "$ref": "#/$defs/sha256"
+        },
+        "confirmed": {
+          "const": true
+        },
+        "confirmationId": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "proposalId",
+        "digest",
+        "confirmed",
+        "confirmationId"
+      ],
+      "additionalProperties": false
+    },
+    "changesRequest": {
+      "type": "object",
+      "properties": {
+        "cursor": {
+          "$ref": "#/$defs/cursor"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "record": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 800
+        },
+        "domain": {
+          "$ref": "#/$defs/domain"
+        },
+        "nativeId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "revision": {
+          "$ref": "#/$defs/sha256"
+        },
+        "visibility": {
+          "enum": [
+            "household",
+            "member"
+          ]
+        },
+        "ownerUid": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/uid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data": {
+          "type": "object"
+        },
+        "source": {
+          "const": "evergreen"
+        },
+        "deepLink": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "deleted": {
+          "const": false
+        }
+      },
+      "required": [
+        "id",
+        "domain",
+        "nativeId",
+        "revision",
+        "visibility",
+        "ownerUid",
+        "data",
+        "source",
+        "deepLink",
+        "deleted"
+      ],
+      "additionalProperties": false
+    },
+    "tombstone": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "domain": {
+          "$ref": "#/$defs/domain"
+        },
+        "revision": {
+          "$ref": "#/$defs/sha256"
+        },
+        "deleted": {
+          "const": true
+        },
+        "data": {
+          "type": "null"
+        },
+        "source": {
+          "const": "evergreen"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50000
+        },
+        "observedAt": {
+          "$ref": "#/$defs/timestamp"
+        }
+      },
+      "required": [
+        "id",
+        "domain",
+        "revision",
+        "deleted",
+        "data",
+        "source",
+        "sequence",
+        "observedAt"
+      ],
+      "additionalProperties": false
+    },
+    "change": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 800
+            },
+            "domain": {
+              "$ref": "#/$defs/domain"
+            },
+            "nativeId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            },
+            "revision": {
+              "$ref": "#/$defs/sha256"
+            },
+            "visibility": {
+              "enum": [
+                "household",
+                "member"
+              ]
+            },
+            "ownerUid": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/uid"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "data": {
+              "type": "object"
+            },
+            "source": {
+              "const": "evergreen"
+            },
+            "deepLink": {
+              "type": "string",
+              "maxLength": 1000
+            },
+            "deleted": {
+              "const": false
+            },
+            "sequence": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50000
+            },
+            "observedAt": {
+              "$ref": "#/$defs/timestamp"
+            }
+          },
+          "required": [
+            "id",
+            "domain",
+            "nativeId",
+            "revision",
+            "visibility",
+            "ownerUid",
+            "data",
+            "source",
+            "deepLink",
+            "deleted",
+            "sequence",
+            "observedAt"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/tombstone"
+        }
+      ]
+    },
+    "proposal": {
+      "type": "object",
+      "properties": {
+        "proposalId": {
+          "$ref": "#/$defs/sha256"
+        },
+        "requestId": {
+          "$ref": "#/$defs/id"
+        },
+        "memberUid": {
+          "$ref": "#/$defs/uid"
+        },
+        "householdId": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "object",
+          "required": [
+            "type",
+            "input",
+            "result",
+            "changes",
+            "warning",
+            "memberUid",
+            "householdId"
+          ]
+        },
+        "expiresAt": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "digest": {
+          "$ref": "#/$defs/sha256"
+        },
+        "requiresExplicitConfirmation": {
+          "const": true
+        }
+      },
+      "required": [
+        "proposalId",
+        "requestId",
+        "memberUid",
+        "householdId",
+        "summary",
+        "expiresAt",
+        "digest",
+        "requiresExplicitConfirmation"
+      ],
+      "additionalProperties": false
+    },
+    "receipt": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/sha256"
+        },
+        "requestId": {
+          "$ref": "#/$defs/id"
+        },
+        "proposalDigest": {
+          "$ref": "#/$defs/sha256"
+        },
+        "confirmationId": {
+          "$ref": "#/$defs/id"
+        },
+        "householdId": {
+          "type": "string"
+        },
+        "memberUid": {
+          "$ref": "#/$defs/uid"
+        },
+        "committedAt": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "result": {
+          "type": "object"
+        },
+        "status": {
+          "const": "committed"
+        }
+      },
+      "required": [
+        "id",
+        "requestId",
+        "proposalDigest",
+        "confirmationId",
+        "householdId",
+        "memberUid",
+        "committedAt",
+        "result",
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    "error": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            },
+            "retryable": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "code",
+            "message",
+            "retryable"
+          ],
+          "additionalProperties": false
+        },
+        "purgeCache": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "error",
+        "purgeCache"
+      ],
+      "additionalProperties": false
+    },
+    "prepareResponse": {
+      "type": "object",
+      "properties": {
+        "proposal": {
+          "$ref": "#/$defs/proposal"
+        },
+        "replayed": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "proposal",
+        "replayed"
+      ],
+      "additionalProperties": false
+    },
+    "commitResponse": {
+      "type": "object",
+      "properties": {
+        "receipt": {
+          "$ref": "#/$defs/receipt"
+        },
+        "replayed": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "receipt",
+        "replayed"
+      ],
+      "additionalProperties": false
+    },
+    "receiptResponse": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "enum": [
+            "prepared",
+            "committed"
+          ]
+        },
+        "receipt": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/receipt"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expired": {
+          "type": "boolean"
+        },
+        "proposalId": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "state",
+        "receipt",
+        "expired",
+        "proposalId"
+      ],
+      "additionalProperties": false
+    },
+    "recordsResponse": {
+      "type": "object",
+      "properties": {
+        "records": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/record"
+          }
+        },
+        "next": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "snapshotRevision": {
+          "$ref": "#/$defs/sha256"
+        },
+        "gaps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/gap"
+          }
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "source": {
+          "const": "evergreen"
+        },
+        "contentTrust": {
+          "const": "untrusted-data"
+        }
+      },
+      "required": [
+        "records",
+        "next",
+        "snapshotRevision",
+        "gaps",
+        "binding",
+        "source",
+        "contentTrust"
+      ],
+      "additionalProperties": false
+    },
+    "changesResponse": {
+      "type": "object",
+      "properties": {
+        "changes": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/change"
+          }
+        },
+        "cursor": {
+          "$ref": "#/$defs/cursor"
+        },
+        "hasMore": {
+          "type": "boolean"
+        },
+        "observedThrough": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 50000
+        },
+        "gaps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/gap"
+          }
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "syncModel": {
+          "const": "observed-state"
+        },
+        "purgeCache": {
+          "const": false
+        }
+      },
+      "required": [
+        "changes",
+        "cursor",
+        "hasMore",
+        "observedThrough",
+        "gaps",
+        "binding",
+        "syncModel",
+        "purgeCache"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/connection"
+    },
+    {
+      "$ref": "#/$defs/pairRequest"
+    },
+    {
+      "$ref": "#/$defs/approvalRequest"
+    },
+    {
+      "$ref": "#/$defs/exchangeRequest"
+    },
+    {
+      "$ref": "#/$defs/discoveryRequest"
+    },
+    {
+      "$ref": "#/$defs/revocationRequest"
+    },
+    {
+      "$ref": "#/$defs/rotationRequest"
+    },
+    {
+      "$ref": "#/$defs/quoteRequest"
+    },
+    {
+      "$ref": "#/$defs/prepareRequest"
+    },
+    {
+      "$ref": "#/$defs/commitRequest"
+    },
+    {
+      "$ref": "#/$defs/changesRequest"
+    },
+    {
+      "$ref": "#/$defs/prepareResponse"
+    },
+    {
+      "$ref": "#/$defs/commitResponse"
+    },
+    {
+      "$ref": "#/$defs/receiptResponse"
+    },
+    {
+      "$ref": "#/$defs/recordsResponse"
+    },
+    {
+      "$ref": "#/$defs/changesResponse"
+    },
+    {
+      "$ref": "#/$defs/error"
+    }
+  ]
+}
+

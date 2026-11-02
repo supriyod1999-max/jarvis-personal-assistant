@@ -1,0 +1,23 @@
+name: Source checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm.cmd ci
+      - run: npm.cmd run audit:public
+      - run: powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/scan-secrets.ps1
+      - run: npm.cmd test
+      - run: npm.cmd run build
+      - run: npx.cmd playwright install chromium
+      - run: npm.cmd run test:browser
+

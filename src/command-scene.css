@@ -1,0 +1,272 @@
+.command{--cmd-text:#e8edf6;--cmd-muted:#92a0b6;--cmd-cyan:#a2f5ed;color:var(--cmd-text);min-width:0}.command button{font:inherit;cursor:pointer}.command button:disabled{opacity:.45;cursor:not-allowed}.command-header{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:28px 0 6px}.command-kicker{font-size:10px;font-weight:550;letter-spacing:2.5px;color:#acc2d0}.command-header p{font-size:11px;color:#798da4;margin-top:7px}.command-header p span{padding:0 5px}.command-header-actions{display:flex;gap:8px}.command-new{display:flex;align-items:center;gap:8px;border:1px solid #bfdbfc1b;border-radius:10px;padding:10px 13px;background:#101b2a88;color:#c2d0e2;font-size:11px!important;min-height:40px;white-space:nowrap}.command-new:hover{background:#23374a;color:#d9fff7}
+.command-layout{display:flex;flex-direction:column;align-items:center;min-height:690px}.command-presence{display:flex;flex-direction:column;align-items:center;text-align:center;min-width:0;width:100%;padding:27px 0 25px}.presence-eyebrow{font-size:9px;letter-spacing:3px;color:#7e95ac;display:flex;align-items:center;gap:10px}.presence-eyebrow>span{height:3px;width:3px;border-radius:50%;background:#a5d9d9}.orb-trigger{position:relative;display:block;width:min(450px,100%);aspect-ratio:1;padding:0;border:0;border-radius:50%;background:none;margin:-12px 0 -30px;outline-offset:-40px!important}.ai-orb{position:relative;width:100%;height:100%;pointer-events:none}.ai-orb canvas{width:100%;height:100%;position:relative;z-index:1}.orb-aura{position:absolute;inset:13%;border-radius:50%;background:radial-gradient(circle,#7edfe907,transparent 68%);box-shadow:0 0 90px #75d9e307;transition:box-shadow .6s}.orb-trigger:hover .orb-aura{box-shadow:0 0 95px #75d9e319}.orb-fallback{position:absolute;inset:30%;z-index:0;border-radius:50%;background:radial-gradient(circle at 35% 25%,#1c3b4b,#0b1b2b);opacity:.4}.orb-mic{position:absolute;z-index:2;bottom:46px;left:calc(50% - 23px);width:46px;height:46px;display:grid;place-items:center;border-radius:50%;background:#122938de;backdrop-filter:blur(12px);border:1px solid #a2f5ed40;color:#b9f3e9;box-shadow:0 0 30px #0004;transition:transform .25s,background .25s}.orb-trigger:hover .orb-mic{transform:translateY(-3px);background:#204449}.command-core-label{display:flex;align-items:center;gap:8px;font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:#a2e4d9;line-height:20px}.command-dot{height:5px;width:5px;border-radius:50%;background:currentColor;box-shadow:0 0 9px currentColor}.state-thinking{color:#b4a1f7}.state-speaking{color:#a5d5ff}.state-offline{color:#8e9fb6}.state-error{color:#ecc092}.state-listening{color:#b7ffe0}.command-presence h1{font-weight:400;font-size:34px;line-height:1.3;letter-spacing:-1.05px;color:#e9f1f7;margin:15px 0 9px}.presence-caption{font-size:13px;color:#94a5bb;line-height:1.8;max-width:370px}.presence-actions{display:flex;align-items:center;gap:14px;margin-top:16px}.presence-actions>span{font-size:10px;color:#74889d}.voice-action{display:flex;align-items:center;gap:7px;font-size:11px!important;min-height:38px;color:#aacdcf;background:#a9eae807;border:1px solid #a9eae81c;padding:7px 13px;border-radius:30px}.voice-action:hover{color:#d2fff6;background:#a9eae814}.command-connection{font-size:11px;line-height:1.7;max-width:330px;color:#a6b2c6;margin-top:15px}.command-chat{width:min(720px,100%);min-width:0}.command-transcript{min-width:0}.command-welcome{padding:0 0 20px}.command-suggestions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}.command-suggestions button{display:flex;align-items:center;gap:10px;min-height:38px;padding:8px 13px;border:1px solid #c1daff16;border-radius:30px;background:#121c2a88;color:#a7b8cf;font-size:11px}.command-suggestions button:hover{background:#23344a;color:#d8f8f3;transform:translateY(-2px)}.command-suggestions svg{transform:rotate(45deg);color:#7795ab}.command-composer-area{position:relative}.command-composer{border:1px solid #b4d4f82b;border-radius:18px;padding:15px 17px 12px;background:linear-gradient(130deg,#1a2635eb,#131c2bed);box-shadow:0 18px 45px #0002;transition:border-color .2s,box-shadow .2s}.command-composer:focus-within{border-color:#a2f5ed65;box-shadow:0 0 0 3px #a2f5ed08,0 18px 45px #0002}.command-composer textarea{display:block;width:100%;min-height:55px;max-height:190px;resize:vertical;background:none;border:0;outline:none;color:#e7eff7;font:14px/1.7 'Segoe UI',sans-serif;padding:0 2px 8px}.command-composer textarea:focus-visible{outline:none}.command-composer-tools{display:flex;align-items:center;gap:13px}.command-composer-tools>button{display:flex;align-items:center;gap:6px;color:#a6bdd1;font-size:11px;min-height:38px;padding:6px 1px}.command-composer-tools small{font-size:9px;color:#6e8199;margin-left:auto}.command-composer-tools .command-send{margin-left:auto;background:#a2f5ed;color:#103638;padding:8px 14px;border-radius:11px;font-size:11px;font-weight:600;min-height:38px}.command-send:hover:enabled{background:#c2fff4;box-shadow:0 0 20px #a2f5ed22}.command-footnote{text-align:center;font-size:9px;color:#7c8ca2;line-height:1.85;margin:15px 10px 24px}.command-subtle{display:inline-flex;align-items:center;gap:6px;padding:7px 0;min-height:36px;border:0;background:none;color:#9fc6cb;font-size:10px!important;text-align:left}.command-subtle:hover{color:#d7fff6}.reply-actions{display:flex;gap:20px;flex-wrap:wrap}.command-message{padding:19px 0;font-size:13px;line-height:1.9;overflow-wrap:anywhere;min-width:0}.command-message>span{display:flex;align-items:center;gap:9px;color:#8da4be;font-size:10px;letter-spacing:.6px;margin-bottom:8px}.command-message p{white-space:pre-wrap}.command-message.user{background:#1c293778;border:1px solid #bed8fc0d;padding:17px 20px;border-radius:14px}.command-message.assistant{padding:22px 10px 25px;color:#d1deec}.command-message.assistant>span{color:#b7e6e2}.command-small-core{width:8px;height:8px;border-radius:50%;background:#9edfdc;box-shadow:0 0 13px #9edfdc44}.command-message small{display:block;color:#8b9db3;font-size:10px;line-height:1.7;margin:9px 0}.command-message summary{cursor:pointer;font-size:10px;color:#9dd0cd;margin-top:8px}.command-source{background:#111e2d;padding:13px;border:1px solid #a0cce122;border-radius:9px;margin-top:10px}.command-source strong{font-size:11px}.command-source p{font-size:11px;max-height:200px;overflow:auto}.command-error,.command-notice,.command-turn-error{padding:12px 15px;border-radius:10px;background:#52312866;color:#f2c5b0;border:1px solid #e8ad8924;font-size:11px;line-height:1.8;margin-bottom:12px;overflow-wrap:anywhere}.command-error{display:flex;gap:10px;justify-content:space-between}.command-error button{color:inherit;flex-shrink:0}.command-notice button{text-decoration:underline;color:inherit}.command-selected{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}.command-selected button{display:flex;align-items:center;gap:6px;max-width:100%;overflow-wrap:anywhere;background:#86dbca15;color:#b9e8df;border-radius:7px;padding:6px 8px;font-size:10px}.command-picker{border:1px solid #b4d4f82b;background:#142030;padding:18px;border-radius:14px;box-shadow:0 10px 35px #0005;margin-bottom:12px}.command-picker>div:first-child{display:flex;justify-content:space-between;gap:10px;font-size:12px}.command-picker>input{width:100%;background:#0a1523;border:1px solid #b4d4f821;border-radius:7px;padding:10px;margin:12px 0;font-size:12px;color:#dfedf5}.command-memory-options{max-height:240px;overflow:auto}.command-memory-options label{display:flex;align-items:center;gap:10px;padding:9px 0;font-size:12px}.command-memory-options small{display:block;font-size:10px;color:#8da2ba;margin-top:4px}.command-picker p{font-size:10px;color:#8da2ba;line-height:1.8;margin-top:10px}.command-history-dialog{width:min(440px,calc(100vw - 30px));max-height:80dvh;padding:26px;border-radius:20px;color:#d4e5f1;background:#111d2b;border:1px solid #b6d9fc29;box-shadow:0 25px 90px #0007}.command-history-dialog::backdrop{background:#020710b3;backdrop-filter:blur(12px)}.history-heading{display:flex;align-items:center;justify-content:space-between;gap:20px}.history-heading h2{font-size:21px;font-weight:450;margin-top:10px}.command-history{display:grid;gap:7px;margin:25px 0;max-height:50dvh;overflow:auto}.command-history button{display:flex;align-items:center;gap:12px;padding:12px;border-radius:9px;color:#aabbd1;text-align:left;font-size:12px;background:#1a2838;min-width:0}.command-history button span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.command-history button.selected,.command-history button:hover{background:#2a414c;color:#d1fff3}.command-history p{font-size:12px;color:#9cacc0}
+@media(min-width:1100px){.has-conversation .command-layout{display:grid;grid-template-columns:minmax(350px,.9fr) minmax(400px,1.1fr);align-items:start;gap:35px;margin-top:20px}.has-conversation .command-presence{position:sticky;top:25px;padding-top:30px}.has-conversation .command-chat{padding-top:25px}.has-conversation .command-presence h1{font-size:27px}.has-conversation .orb-trigger{width:min(450px,100%)}.has-conversation .command-transcript{max-height:calc(100dvh - 340px);min-height:320px;overflow:auto;padding-right:12px;scrollbar-width:thin;scrollbar-color:#3f5366 transparent}}
+@media(max-width:700px){.command-header{padding:20px 0 6px;gap:10px;align-items:flex-start}.command-kicker{font-size:8px;letter-spacing:1.5px}.command-header p{font-size:9px;max-width:165px;line-height:1.8}.command-header-actions{gap:6px}.command-new{font-size:9px!important;padding:7px 9px;min-height:36px;gap:5px}.command-new svg{width:13px}.command-layout{min-height:0}.command-presence{padding-top:25px;padding-bottom:24px}.presence-eyebrow{font-size:8px;letter-spacing:2px}.orb-trigger{width:min(360px,100%);margin:-5px 0 -16px}.orb-mic{bottom:26px;width:42px;height:42px;left:calc(50% - 21px)}.command-presence h1{font-size:28px;margin-top:12px}.presence-caption{font-size:12px}.command-core-label{font-size:9px}.presence-actions{margin-top:12px}.command-suggestions{gap:6px}.command-suggestions button{font-size:10px;min-height:34px;padding:6px 9px;gap:5px}.command-suggestions button svg{display:none}.command-composer{padding:14px 14px 10px}.command-composer textarea{font-size:16px;min-height:54px}.command-composer-tools small{display:none}.command-footnote{font-size:9px;margin:13px 0 15px}.has-conversation .command-transcript{max-height:460px;overflow:auto;margin-bottom:12px;scrollbar-width:thin}.has-conversation .orb-trigger{width:310px}.has-conversation .command-presence{padding-top:20px}.command-header-actions .command-new{white-space:nowrap}.command-message{font-size:13px}}
+@media(max-width:700px) and (max-height:900px){.fresh-conversation .command-presence{padding-top:12px;padding-bottom:16px}.fresh-conversation .presence-eyebrow{display:none}.fresh-conversation .orb-trigger{width:330px;margin-top:-22px;margin-bottom:-16px}.fresh-conversation .command-presence h1{margin:9px 0 5px}.fresh-conversation .presence-actions{margin-top:9px}.fresh-conversation .command-welcome{padding-bottom:12px}}
+@media(min-width:701px) and (max-height:850px){.fresh-conversation .orb-trigger{width:350px}.fresh-conversation .command-presence{padding-top:18px;padding-bottom:18px}.fresh-conversation .command-layout{min-height:0}.fresh-conversation .command-presence h1{font-size:30px}}
+
+.talk-start{background:#a2f5ed!important;color:#102b34!important;border-color:#a2f5ed!important}.voice-action:disabled{opacity:.4;cursor:not-allowed}.talk-end{color:#ecc2b8!important}.presence-actions{flex-wrap:wrap}.talk-options{width:min(330px,100%);margin:16px auto 0;text-align:left;color:#9cabbe;font-size:11px}.talk-options summary{text-align:center;cursor:pointer;padding:7px}.talk-options[open]{background:#111c2b;border:1px solid #bbdcf21c;border-radius:12px;padding:12px}.talk-options label{display:flex;gap:10px;align-items:center;justify-content:space-between;margin:12px 0}.talk-options select{max-width:170px;background:#1c293b;border:1px solid #9dcad32b;border-radius:7px;color:#c7d9e7;padding:7px;font:inherit}.talk-options .talk-interrupt{justify-content:flex-start}.talk-options p,.talk-hint{font-size:11px;line-height:1.6;color:#92a4ba}.talk-heard{max-width:360px;margin:16px auto 0;font-size:12px;line-height:1.65;color:#c1d3dc;overflow-wrap:anywhere}.talk-heard span{display:block;color:#8297ab;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:5px}.orb-trigger:disabled{cursor:wait}
+.talk-active .command-welcome,.talk-active .command-composer{display:none}.talk-active .command-presence{scroll-margin-top:20px}.talk-active .presence-actions .voice-action{min-height:42px}
+.hermes-handoff { max-width: min(600px, calc(100vw - 32px)); }
+.hermes-handoff p { color: var(--text-secondary, #a7bdc5); font-size: 13px; line-height: 1.6; }
+.hermes-handoff label { display: grid; gap: 8px; font-size: 13px; }
+.hermes-handoff textarea { min-height: 140px; width: 100%; box-sizing: border-box; padding: 12px; resize: vertical; color: inherit; background: #071a22; border: 1px solid #274450; border-radius: 12px; }
+.chatgpt-connection select { display: block; max-width: 100%; margin: 8px 0 16px; }
+.chatgpt-connection .button-row { flex-wrap: wrap; margin: 12px 0; }
+.chatgpt-connection a { font-size: 12px; }
+.command-transcript[hidden]{display:none}
+.command-transcript-control{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 16px}
+.fresh-conversation .command-transcript-control{justify-content:center}
+.command-model-bar{margin:12px 0 8px;max-width:680px}.model-picker{display:grid;grid-template-columns:minmax(0,1fr) 42px;gap:6px 10px;align-items:end}.model-picker>label{display:grid;gap:6px;font-size:12px;color:#b9ced9}.model-picker select{width:100%;min-height:44px;padding:10px 12px;border:1px solid #a9d7cf35;border-radius:12px;background:#14232c;color:#edf6f3;font:inherit;font-size:14px}.model-picker select:focus-visible,.model-picker-refresh:focus-visible{outline:2px solid #a9e4d5;outline-offset:3px}.model-picker-refresh{display:grid;place-items:center;height:44px;min-width:42px;border:1px solid #a9d7cf35;border-radius:12px;background:#14232c;color:#b9d7d2;cursor:pointer}.model-picker>p{grid-column:1/-1;margin:2px 0 0;font-size:11px;line-height:1.5;color:#91a7b4}.model-picker>p.model-picker-error{color:#edb8af}.model-picker button:disabled,.model-picker select:disabled{opacity:.65;cursor:not-allowed}.command-action .reply-actions a{display:inline-flex;gap:7px;align-items:center;text-decoration:none;min-height:44px}.command-action a[aria-disabled=true]{opacity:.45;cursor:not-allowed}
+@media(max-width:700px){.command-model-bar{margin:10px 0 4px}.model-picker select{font-size:16px}}
+.command-transcript-control>span{font-size:11px;color:var(--cmd-muted)}
+
+/* One conversation desk: a generous writing surface and a quieter voice companion. */
+.app-shell .command.command-workspace {
+  --cmd-text:#edf2e9; --cmd-muted:#a2b9b6; --cmd-cyan:#b0e0d4; --cmd-line:#54766b38;
+  width:100%; max-width:1440px; min-width:0; margin:0 auto!important; padding:0!important;
+  background:transparent!important; border:0!important; box-shadow:none!important;
+}
+.app-shell .command.command-workspace .command-header {padding:2px 4px 24px; gap:24px; align-items:center}
+.app-shell .command.command-workspace .command-kicker {font-size:24px;letter-spacing:-.7px;font-weight:600;color:var(--cmd-text)}
+.app-shell .command.command-workspace .command-header p {font-size:13px;line-height:1.5;max-width:none;margin:7px 0 0;color:var(--cmd-muted)}
+.app-shell .command.command-workspace .command-header-actions {gap:10px;flex-shrink:0}
+.app-shell .command.command-workspace .command-new {min-height:44px;padding:10px 15px;gap:8px;font-size:12px!important;color:#d3e1d9;border:1px solid #a2bdb52b;border-radius:13px;background:#243c3d80}
+.app-shell .command.command-workspace .command-new:hover {background:#36514e;border-color:#b5d2c34a}
+.app-shell .command.command-workspace .command-layout,
+.app-shell .command.command-workspace.has-conversation .command-layout {
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,.42fr);align-items:stretch;gap:0;min-height:620px;margin:0;
+  border:1px solid #92b9a725;border-radius:28px;background:linear-gradient(115deg,#182e31eb,#102428f5 70%);box-shadow:0 28px 80px #010e1340,inset 0 1px 0 #c8e0c808;overflow:hidden;
+}
+.app-shell .command.command-workspace .command-chat,
+.app-shell .command.command-workspace.has-conversation .command-chat {width:100%;min-width:0;display:flex;flex-direction:column;padding:28px 34px 22px;order:1}
+.app-shell .command.command-workspace .command-chat-topline {display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:16px;min-width:0}
+.app-shell .command.command-workspace .command-conversation-label {display:flex;align-items:center;gap:8px;padding-top:13px;white-space:nowrap;font-size:12px;line-height:18px;color:#b9cbc3}
+.app-shell .command.command-workspace .command-conversation-label svg {color:#efba96}
+.app-shell .command.command-workspace .command-model-bar {min-width:0;max-width:300px;width:56%;margin:0}
+.app-shell .command.command-workspace .model-picker {grid-template-columns:minmax(0,1fr) 36px;gap:5px 0;align-items:start}
+.app-shell .command.command-workspace .model-picker>label {display:flex;align-items:center;gap:10px;font-size:0;background:#0d2226a3;border:1px solid #7eaaa132;border-right:0;border-radius:12px 0 0 12px;min-width:0}
+.app-shell .command.command-workspace .model-picker select {font-size:12px;min-height:44px;padding:9px 12px;background:transparent;border:0;border-radius:12px 0 0 12px;color:#d5e6de;min-width:0;text-overflow:ellipsis}
+.app-shell .command.command-workspace .model-picker option {background:#173236;color:#edf2e9}
+.app-shell .command.command-workspace .model-picker-refresh {height:46px;min-width:36px;background:#0d2226a3;border:1px solid #7eaaa132;border-left:0;border-radius:0 12px 12px 0;color:#96b8af}
+.app-shell .command.command-workspace .model-picker>p {font-size:10px;line-height:1.5;margin:0;color:#9bb4ac;padding-left:2px}
+.app-shell .command.command-workspace .model-picker-error {color:#f4bca8}
+.app-shell .command.command-workspace .command-transcript,
+.app-shell .command.command-workspace.has-conversation .command-transcript {height:auto;min-height:0;max-height:64dvh;overflow:auto;padding:0 6px 0 0;scrollbar-width:thin;scrollbar-color:#506e66 transparent;flex:1}
+.app-shell .command.command-workspace .command-transcript[hidden] {display:none}
+.app-shell .command.command-workspace .command-welcome {display:block;padding:10px 0 20px;max-width:none}
+.app-shell .command.command-workspace .command-welcome-eyebrow {display:block;color:#b1c3b9;font-size:10px;line-height:1.6;letter-spacing:1.9px;font-weight:600;margin-bottom:12px}
+.app-shell .command.command-workspace .command-welcome h1 {font-size:clamp(34px,3.1vw,48px);font-weight:500;line-height:1.12;letter-spacing:-1.9px;max-width:580px;color:#eff1e7;margin:0 0 14px;text-wrap:balance}
+.app-shell .command.command-workspace .command-welcome>p {font-size:14px;line-height:1.8;max-width:475px;margin:0;color:#b1c4bc}
+.app-shell .command.command-workspace .command-suggestions {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:24px;justify-content:stretch}
+.app-shell .command.command-workspace .command-suggestions button {position:relative;display:flex;align-items:flex-start;flex-direction:column;gap:12px;min-width:0;text-align:left;min-height:112px;padding:16px;border:1px solid #83a59a25;border-radius:16px;background:#29434154;color:#dce7dc;transition:background .2s,border-color .2s,transform .2s}
+.app-shell .command.command-workspace .command-suggestions button:hover:enabled {background:#36584c77;border-color:#a0c2ab55;transform:translateY(-3px)}
+.app-shell .command.command-workspace .suggestion-icon {display:grid;place-items:center;width:32px;height:32px;border-radius:10px;background:#e9b58c16;color:#eec19e}
+.app-shell .command.command-workspace .command-suggestions button:nth-child(2) .suggestion-icon {color:#bdd8be;background:#c4dcb715}
+.app-shell .command.command-workspace .command-suggestions button:nth-child(3) .suggestion-icon {color:#aacece;background:#aacdcd15}
+.app-shell .command.command-workspace .command-suggestions svg {display:block;transform:none;color:inherit;flex-shrink:0}
+.app-shell .command.command-workspace .command-suggestions strong {display:block;font-size:12px;line-height:1.4;font-weight:550}
+.app-shell .command.command-workspace .command-suggestions small {display:block;font-size:10px;line-height:1.5;margin-top:5px;color:#a5bbb0}
+.app-shell .command.command-workspace .command-suggestions .suggestion-arrow {position:absolute;right:14px;top:22px;width:15px;color:#9cb3a6}
+.app-shell .command.command-workspace .command-presence,
+.app-shell .command.command-workspace.has-conversation .command-presence {position:relative;top:auto;order:2;max-width:none;padding:44px 24px 32px;display:flex;flex-direction:column;justify-content:center;align-items:center;border:0;border-left:1px solid #9bb8a91c;border-radius:0;background:radial-gradient(ellipse at 50% 34%,#284c4988,transparent 61%),linear-gradient(165deg,#24433d75,#10232966);isolation:isolate;overflow:hidden}
+.app-shell .command.command-workspace .presence-eyebrow {font-size:10px;line-height:1.6;letter-spacing:1.3px;text-transform:uppercase;color:#b1c7b9;gap:8px}
+.app-shell .command.command-workspace .presence-eyebrow>span {background:#f0c5a0;box-shadow:0 0 14px #edbe9280;width:4px;height:4px}
+.app-shell .command.command-workspace .orb-trigger,
+.app-shell .command.command-workspace.has-conversation .orb-trigger {width:min(340px,calc(100% + 28px));flex-shrink:0;max-width:none;margin:-4px -14px -26px;outline-offset:-38px!important}
+.app-shell .command.command-workspace .orb-mic {width:42px;height:42px;bottom:34px;left:calc(50% - 21px);background:#163b37de;border-color:#c9e4cb45;color:#d3ead8}
+.app-shell .command.command-workspace .orb-mic svg {width:17px}
+.app-shell .command.command-workspace .command-core-label {font-size:10px;letter-spacing:1px;justify-content:center}
+.app-shell .command.command-workspace .command-presence h2 {font-size:27px;font-weight:500;line-height:1.25;letter-spacing:-.8px;color:#e6ede2;margin:16px 0 12px}
+.app-shell .command.command-workspace .presence-caption {font-size:12px;line-height:1.8;max-width:245px;margin:0;color:#a9c0b5}
+.app-shell .command.command-workspace .presence-actions {justify-content:center;gap:8px;margin-top:22px;width:100%}
+.app-shell .command.command-workspace .voice-action {min-height:44px;padding:10px 16px;justify-content:center;border-radius:13px;font-size:12px!important}
+.app-shell .command.command-workspace .talk-start {background:#c2dcca!important;color:#17392f!important;border-color:#c2dcca!important;min-width:132px;box-shadow:0 7px 22px #0002}
+.app-shell .command.command-workspace .talk-start:hover:enabled {background:#d6e8d9!important}
+.app-shell .command.command-workspace .talk-hint {max-width:240px;font-size:11px;line-height:1.7;margin:16px 0 0;color:#a4bcb0}
+.app-shell .command.command-workspace .talk-hint button {border:0;background:none;color:#d5e7da;text-decoration:underline;text-underline-offset:3px;padding:0;font:inherit}
+.app-shell .command.command-workspace .talk-heard {width:100%;font-size:12px;max-width:260px;padding-top:16px;border-top:1px solid var(--cmd-line)}
+.app-shell .command.command-workspace .command-connection {max-width:260px;color:#c1c9bb}
+.app-shell .command.command-workspace .command-composer-area {padding:0;background:transparent;border:0;margin-top:4px}
+.app-shell .command.command-workspace .command-composer {background:linear-gradient(145deg,#354e49b3,#2a403f9c);border:1px solid #abc5ad3b;border-radius:20px;padding:18px;box-shadow:0 14px 28px #06181933,inset 0 1px 0 #d7e5c908;transition:border-color .2s,box-shadow .2s}
+.app-shell .command.command-workspace .command-composer:focus-within {border-color:#e2b58a9c;box-shadow:0 0 0 3px #e8ba9022,0 14px 28px #06181933}
+.app-shell .command.command-workspace .command-composer textarea {min-height:80px;font-size:15px;font-family:inherit;line-height:1.7;color:#f0f1e6}
+.app-shell .command.command-workspace .command-composer textarea::placeholder {color:#bdccc0;opacity:1}
+.app-shell .command.command-workspace .command-composer-tools {flex-wrap:wrap;gap:8px;margin-top:0;padding-top:8px;border-top:1px solid #c4d7c017}
+.app-shell .command.command-workspace .command-composer-tools>button {min-height:44px;font-size:12px;color:#c5d5c7}
+.app-shell .command.command-workspace .command-composer-tools small {font-size:10px;color:#9ab3a7}
+.app-shell .command.command-workspace .command-composer-tools .command-send {background:#f1bf95;color:#302a21;border-radius:12px;min-width:90px;font-size:12px;padding:10px 16px}
+.app-shell .command.command-workspace .command-composer-tools .command-send:hover:enabled {background:#f8cda9;box-shadow:0 6px 20px #e8ad7722}
+.app-shell .command.command-workspace .command-transcript-control {margin:0 0 18px;justify-content:space-between}
+.app-shell .command.command-workspace .command-transcript-control .command-new {border:0;padding:6px 0;background:none;color:#acc4b5;font-size:11px!important;min-height:36px}
+.app-shell .command.command-workspace .command-transcript-control>span {font-size:11px;color:#9fb7aa}
+.app-shell .command.command-workspace .command-message {font-size:14px;line-height:1.85}
+.app-shell .command.command-workspace .command-message.user {background:#3c51463d;border:1px solid #9fbba521;margin-left:32px;border-radius:18px 18px 5px 18px;padding:17px 20px}
+.app-shell .command.command-workspace .command-message.assistant {color:#e0e9dd;padding:24px 4px 28px}
+.app-shell .command.command-workspace .command-message>span {font-size:11px;letter-spacing:.3px;color:#adc5b7}
+.app-shell .command.command-workspace .command-message.assistant>span {color:#edc19e}
+.app-shell .command.command-workspace .command-message small {color:#9eb5ac}
+.app-shell .command.command-workspace .command-source {background:#142a2b;border-color:#54766b38}
+.app-shell .command.command-workspace .command-subtle {font-size:11px!important;color:#a9c8b9}
+.app-shell .command.command-workspace .reply-actions {gap:16px}
+.app-shell .command.command-workspace .command-tools {margin-top:15px;color:#a3b8aa;font-size:11px}
+.app-shell .command.command-workspace .command-tools>summary {cursor:pointer;min-height:40px;padding:12px 0}
+.app-shell .command.command-workspace .command-tools-content {padding:12px 16px;border:1px solid var(--cmd-line);border-radius:14px;background:#142b2d}
+.app-shell .command.command-workspace .command-voice-check {display:flex;align-items:center;justify-content:space-between;gap:16px;line-height:1.6}
+.app-shell .command.command-workspace .command-voice-check p {max-width:320px}
+.app-shell .command.command-workspace .command-voice-check button {white-space:nowrap;flex-shrink:0}
+.app-shell .command.command-workspace .talk-options {width:100%;margin:12px 0 0}
+.app-shell .command.command-workspace .talk-options summary {text-align:left;min-height:44px;padding:12px 0}
+.app-shell .command.command-workspace .command-footnote {text-align:left;font-size:10px;line-height:1.7;color:#94ac9f;margin:6px 0 0;max-width:420px}
+.app-shell .command.command-workspace .command-picker {background:#1c3434;border-color:#a0c4ae30}
+.command-context {border:1px solid #829d694f;border-radius:16px;background:#3d52332e;margin-bottom:20px;padding:16px;color:#e0ead5;animation:command-context-enter 220ms ease-out}
+.command-context-heading {display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+.command-context-heading>div {display:grid;gap:5px;min-width:0}
+.command-context-heading span {font-size:10px;color:#b9c5a8;letter-spacing:.4px}
+.command-context-heading strong {font-size:15px;font-weight:550;line-height:1.4;overflow-wrap:anywhere}
+.command-context-heading>button {flex-shrink:0;min-width:40px;min-height:40px;color:#d1dfc5;background:#809b5c1f;border:0;border-radius:10px}
+.command-context summary {font-size:11px;cursor:pointer;padding-top:12px;min-height:34px;color:#c4d3b7}
+.command-context ul {list-style:none;padding:0;margin:8px 0}
+.command-context li+li {border-top:1px solid #829d6930}
+.command-context li>button {display:flex;justify-content:space-between;align-items:center;gap:16px;width:100%;text-align:left;padding:10px 0;min-height:44px;background:none;border:0;color:inherit;overflow-wrap:anywhere;font-size:12px}
+.command-context li>button span {font-size:10px;white-space:nowrap;color:#b5c3a5}
+.command-context p {font-size:11px;line-height:1.6;color:#b4c4a9;margin:8px 0 0}
+.app-shell .command.command-workspace.talk-active .command-presence {background:radial-gradient(ellipse at 50% 38%,#3e655877,transparent 60%),#18372e}
+.app-shell .command.command-workspace.talk-active .command-composer {display:none}
+@keyframes command-context-enter {from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@media(min-width:1700px) and (min-height:1000px) {
+  .app-shell .command.command-workspace .command-layout {min-height:690px}
+  .app-shell .command.command-workspace .command-chat {padding:34px 44px 26px}
+  .app-shell .command.command-workspace .command-welcome {padding-top:38px;padding-bottom:38px}
+  .app-shell .command.command-workspace .command-welcome h1 {font-size:52px}
+  .app-shell .command.command-workspace .command-suggestions {margin-top:38px}
+  .app-shell .command.command-workspace .orb-trigger {width:370px}
+}
+@media(max-width:1080px) {
+  .app-shell .command.command-workspace .command-chat {padding:24px}
+  .app-shell .command.command-workspace .command-layout {grid-template-columns:minmax(0,1fr) 280px}
+  .app-shell .command.command-workspace .command-chat-topline {flex-direction:column;gap:12px}
+  .app-shell .command.command-workspace .command-conversation-label {padding:0}
+  .app-shell .command.command-workspace .command-model-bar {width:100%;max-width:none}
+  .app-shell .command.command-workspace .command-presence {padding:30px 16px}
+  .app-shell .command.command-workspace .command-suggestions {gap:8px}
+  .app-shell .command.command-workspace .command-suggestions button {padding:13px;min-height:144px}
+}
+@media(max-width:980px) {
+  .app-shell .command.command-workspace .command-layout,
+  .app-shell .command.command-workspace.has-conversation .command-layout {display:flex;flex-direction:column;min-height:0;border-radius:24px}
+  .app-shell .command.command-workspace .command-chat,
+  .app-shell .command.command-workspace.has-conversation .command-chat {padding:26px;order:2}
+  .app-shell .command.command-workspace .command-chat-topline {flex-direction:row;align-items:flex-start;gap:16px;margin-bottom:16px}
+  .app-shell .command.command-workspace .command-conversation-label {padding-top:13px}
+  .app-shell .command.command-workspace .command-model-bar {width:54%;max-width:300px}
+  .app-shell .command.command-workspace .command-presence,
+  .app-shell .command.command-workspace.has-conversation .command-presence {order:1;position:relative;top:auto;display:grid;grid-template-columns:112px minmax(0,1fr) auto;grid-template-rows:auto auto;gap:4px 16px;padding:18px 26px;width:100%;text-align:left;border-left:0;border-bottom:1px solid #9bb8a91c}
+  .app-shell .command.command-workspace .presence-eyebrow {display:none}
+  .app-shell .command.command-workspace .orb-trigger,
+  .app-shell .command.command-workspace.has-conversation .orb-trigger {width:120px;margin:-10px 0 -10px -4px;grid-column:1;grid-row:1/4;align-self:center;outline-offset:0!important}
+  .app-shell .command.command-workspace .orb-mic {width:30px;height:30px;bottom:8px;left:calc(50% - 15px)}
+  .app-shell .command.command-workspace .orb-mic svg {width:14px}
+  .app-shell .command.command-workspace .command-core-label {grid-column:2;grid-row:1;justify-content:flex-start;font-size:9px}
+  .app-shell .command.command-workspace .command-presence h2 {grid-column:2;grid-row:2;font-size:23px;margin:0}
+  .app-shell .command.command-workspace .presence-caption {grid-column:2;grid-row:3;max-width:380px;font-size:11px;line-height:1.7;margin:0}
+  .app-shell .command.command-workspace .presence-actions {grid-column:3;grid-row:1/4;align-self:center;width:auto;max-width:150px;margin:0}
+  .app-shell .command.command-workspace .talk-hint,
+  .app-shell .command.command-workspace .talk-heard,
+  .app-shell .command.command-workspace .command-connection {grid-column:1/-1;max-width:none;text-align:left;margin:8px 0 0;font-size:11px}
+  .app-shell .command.command-workspace .command-welcome {padding:14px 0 26px}
+  .app-shell .command.command-workspace .command-welcome h1 {font-size:40px;letter-spacing:-1.5px;max-width:500px}
+  .app-shell .command.command-workspace .command-suggestions button {min-height:120px}
+  .app-shell .command.command-workspace .command-transcript {max-height:60dvh}
+}
+/* Leave the writing surface clear of the dock in compact tablet windows. */
+@media(min-width:601px) and (max-width:980px) {
+  .app-shell .command.command-workspace .command-welcome {padding:8px 0 20px}
+  .app-shell .command.command-workspace .command-welcome-eyebrow,
+  .app-shell .command.command-workspace .command-welcome>p {display:none}
+  .app-shell .command.command-workspace.talk-active .command-welcome>p {display:block;margin-top:12px}
+  .app-shell .command.command-workspace .command-welcome h1 {font-size:36px;margin-bottom:0}
+  .app-shell .command.command-workspace .command-suggestions {margin-top:20px}
+  .app-shell .command.command-workspace .command-suggestions button {min-height:70px;flex-direction:row;align-items:center;gap:10px;padding:12px}
+  .app-shell .command.command-workspace .suggestion-icon {flex-shrink:0}
+  .app-shell .command.command-workspace .command-suggestions small,
+  .app-shell .command.command-workspace .command-suggestions .suggestion-arrow {display:none}
+}
+@media(max-width:600px) {
+  .app-shell .command.command-workspace .command-header {padding:2px 0 18px;gap:12px;align-items:flex-start;flex-wrap:wrap}
+  .app-shell .command.command-workspace .command-kicker {font-size:22px}
+  .app-shell .command.command-workspace .command-header p {font-size:11px;max-width:220px;line-height:1.7}
+  .app-shell .command.command-workspace .command-header-actions {gap:6px}
+  .app-shell .command.command-workspace .command-header-actions .command-new {padding:8px 11px;gap:6px;font-size:11px!important}
+  .app-shell .command.command-workspace .command-layout {border-radius:22px}
+  .app-shell .command.command-workspace .command-presence,
+  .app-shell .command.command-workspace.has-conversation .command-presence {grid-template-columns:82px minmax(0,1fr);grid-template-rows:auto auto auto;gap:3px 12px;padding:16px}
+  .app-shell .command.command-workspace .orb-trigger,
+  .app-shell .command.command-workspace.has-conversation .orb-trigger {width:94px;grid-row:1/4;margin:0 0 0 -6px}
+  .app-shell .command.command-workspace .orb-mic {bottom:3px;width:27px;height:27px;left:calc(50% - 13.5px)}
+  .app-shell .command.command-workspace .command-presence h2 {font-size:22px;line-height:1.2}
+  .app-shell .command.command-workspace .presence-caption {grid-column:1/-1;grid-row:4;margin-top:7px;font-size:11px;max-width:none}
+  .app-shell .command.command-workspace .presence-actions {grid-column:2;grid-row:3;justify-content:flex-start;max-width:none;margin-top:6px}
+  .app-shell .command.command-workspace .presence-actions .voice-action {min-height:40px;padding:8px 13px;font-size:11px!important}
+  .app-shell .command.command-workspace .talk-start {min-width:110px}
+  .app-shell .command.command-workspace .command-chat,
+  .app-shell .command.command-workspace.has-conversation .command-chat {padding:20px 18px}
+  .app-shell .command.command-workspace .command-chat-topline {flex-direction:column;gap:10px;margin-bottom:20px}
+  .app-shell .command.command-workspace .command-conversation-label {padding:0;font-size:11px}
+  .app-shell .command.command-workspace .command-model-bar {max-width:none;width:100%}
+  .app-shell .command.command-workspace .model-picker select {font-size:16px}
+  .app-shell .command.command-workspace .command-welcome {padding:4px 0 20px}
+  .app-shell .command.command-workspace .command-welcome-eyebrow {font-size:8px;letter-spacing:1.3px;margin-bottom:12px}
+  .app-shell .command.command-workspace .command-welcome h1 {font-size:34px;letter-spacing:-1.2px;margin-bottom:14px}
+  .app-shell .command.command-workspace .command-welcome>p {font-size:12px;line-height:1.75}
+  .app-shell .command.command-workspace .command-suggestions {grid-template-columns:1fr;gap:7px;margin-top:22px}
+  .app-shell .command.command-workspace .command-suggestions button {flex-direction:row;align-items:center;gap:12px;min-height:64px;padding:12px 34px 12px 12px;border-radius:13px}
+  .app-shell .command.command-workspace .command-suggestions .suggestion-icon {width:30px;height:30px;flex-shrink:0}
+  .app-shell .command.command-workspace .command-suggestions small {margin-top:3px}
+  .app-shell .command.command-workspace .command-suggestions .suggestion-arrow {top:24px;right:12px;width:13px}
+  .app-shell .command.command-workspace .command-composer {padding:16px;border-radius:16px}
+  .app-shell .command.command-workspace .command-composer textarea {font-size:16px;min-height:96px}
+  .app-shell .command.command-workspace .command-composer-tools {gap:6px}
+  .app-shell .command.command-workspace .command-composer-tools>button {font-size:11px}
+  .app-shell .command.command-workspace .command-composer-tools .command-send {min-width:70px;padding:8px 11px}
+  .app-shell .command.command-workspace .command-voice-check {align-items:flex-start;flex-direction:column;gap:8px}
+  .app-shell .command.command-workspace .command-message {font-size:13px}
+  .app-shell .command.command-workspace .command-message.user {margin-left:10px;padding:14px;border-radius:15px 15px 4px 15px}
+  .app-shell .command.command-workspace .reply-actions {gap:6px 14px}
+  .command-context {padding:12px}
+  .command-context li>button {flex-direction:column;align-items:flex-start;gap:4px}
+}
+@media(max-width:600px) {
+  .app-shell .command.command-workspace .command-header {align-items:center;flex-wrap:nowrap;padding-bottom:16px}
+  .app-shell .command.command-workspace .command-header p {display:none}
+  .app-shell .command.command-workspace .command-heading {min-width:0}
+  .app-shell .command.command-workspace .command-header-actions .command-new:first-child {font-size:0!important;gap:0;width:44px;padding:10px;justify-content:center}
+  .app-shell .command.command-workspace .command-header-actions .command-new:first-child svg {width:17px;height:17px}
+  .app-shell .command.command-workspace:not(.talk-active) .command-presence:has(.state-ready) .presence-caption {display:none}
+  .app-shell .command.command-workspace .command-chat-topline {margin-bottom:16px;gap:8px}
+  .app-shell .command.command-workspace .command-welcome-eyebrow {display:none}
+  .app-shell .command.command-workspace .command-welcome h1 {font-size:30px;line-height:1.15;margin-bottom:0}
+  .app-shell .command.command-workspace .command-welcome>p {display:none}
+  .app-shell .command.command-workspace.talk-active .command-welcome>p {display:block;margin-top:14px}
+  .app-shell .command.command-workspace .command-suggestions {display:flex;flex-wrap:nowrap;gap:8px;margin-top:18px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:#5c7d6c transparent;padding-bottom:5px}
+  .app-shell .command.command-workspace .command-suggestions button {flex:0 0 calc(100% - 28px);scroll-snap-align:start;min-height:66px}
+  .app-shell .command.command-workspace .command-composer textarea {min-height:72px}
+  .app-shell .command.command-workspace .command-welcome {padding-bottom:16px}
+}
+@media(max-width:360px) {
+  .app-shell .command.command-workspace .command-chat {padding:18px 12px}
+  .app-shell .command.command-workspace .command-header {flex-direction:row}
+  .app-shell .command.command-workspace .command-header-actions {width:auto;justify-content:flex-end}
+  .app-shell .command.command-workspace .command-presence {padding:14px 12px;grid-template-columns:72px minmax(0,1fr);gap:4px 10px}
+  .app-shell .command.command-workspace .orb-trigger {width:84px}
+  .app-shell .command.command-workspace .command-presence h2 {font-size:20px}
+  .app-shell .command.command-workspace .command-welcome h1 {font-size:30px}
+}
+@media(prefers-reduced-motion:reduce) {
+  .command-context {animation:none}
+  .app-shell .command.command-workspace .orb-mic,
+  .app-shell .command.command-workspace .command-composer,
+  .app-shell .command.command-workspace .command-suggestions button {transition:none}
+  .app-shell .command.command-workspace .orb-trigger:hover .orb-mic,
+  .app-shell .command.command-workspace .command-suggestions button:hover:enabled {transform:none}
+}

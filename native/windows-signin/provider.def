@@ -1,0 +1,4 @@
+LIBRARY jarvis-credential-provider
+EXPORTS
+    DllGetClassObject PRIVATE
+    DllCanUnloadNow PRIVATE

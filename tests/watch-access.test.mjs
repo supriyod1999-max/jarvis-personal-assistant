@@ -1,0 +1,22 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { generateKeyPairSync,sign,createHash } from 'node:crypto';
+import { createWatchAccess } from '../server/watch-access.mjs';
+import { directory } from './helpers.mjs';
+const pair=()=>{const keys=generateKeyPairSync('rsa',{modulusLength:2048});const publicKey=keys.publicKey.export({type:'spki',format:'der'}).toString('base64');return{...keys,publicKey,id:createHash('sha256').update(Buffer.from(publicKey,'base64')).digest('hex')};};
+const proof=(payload,key)=>sign('sha256',Buffer.from(payload),key.privateKey).toString('base64');
+test('watch trust persists, binds the exact key and phone, and burns signed controls before execution',async t=>{
+  const path=directory(t),phone=pair(),watch=pair(),wrong=pair();let paired=true,time=100000,calls=0;
+  const computer={remoteIdentity:async id=>paired&&id===phone.id?{computerId:'synthetic-computer',publicKey:phone.publicKey}:null};
+  const options={directory:path,computer,now:()=>time,execute:async(op,args,check)=>{assert(check());calls++;return{op,args};}};
+  let access=createWatchAccess(options);t.after(()=>access.close());
+  const pending=await access.prepare({phoneId:phone.id,publicKey:watch.publicKey,node:'exact-node',name:'Watch fixture'},'owner',()=>true);
+  await assert.rejects(access.approve({requestId:pending.requestId,signature:proof(pending.payload,wrong)},'owner',()=>true),/not approved/);
+  const next=await access.prepare({phoneId:phone.id,publicKey:watch.publicKey,node:'exact-node'},'owner',()=>true);await access.approve({requestId:next.requestId,signature:proof(next.payload,phone)},'owner',()=>true);
+  await access.close();access=createWatchAccess(options);assert.equal(access.list().length,1);
+  const challenge=await access.challenge({watchId:watch.id,operation:'remote.input',args:JSON.stringify({events:[{type:'media',key:'next'}]})});
+  const input={requestId:challenge.requestId,signature:proof(challenge.payload,watch)};assert.equal((await access.execute(input)).op,'remote.input');assert.equal(calls,1);await assert.rejects(access.execute(input),/expired/);assert.equal(calls,1);
+  await assert.rejects(access.challenge({watchId:watch.id,operation:'windows.unlock',args:'{}'}),/Unsupported/);
+  const old=await access.challenge({watchId:watch.id,operation:'status',args:'{}'});time+=31000;await assert.rejects(access.execute({requestId:old.requestId,signature:proof(old.payload,watch)}),/expired/);
+  paired=false;await assert.rejects(access.challenge({watchId:watch.id,operation:'status',args:'{}'}),/Trust/);paired=true;await access.revoke(watch.id,()=>true);assert.equal(access.list().length,0);
+});

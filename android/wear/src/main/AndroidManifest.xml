@@ -1,0 +1,30 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <uses-feature android:name="android.hardware.type.watch" />
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+  <uses-permission android:name="android.permission.UPDATE_PACKAGES_WITHOUT_USER_ACTION" />
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+  <uses-permission android:name="android.permission.RECORD_AUDIO" />
+  <uses-permission android:name="android.permission.WAKE_LOCK" />
+  <uses-permission android:name="android.permission.VIBRATE" />
+  <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+  <application android:label="JARVIS" android:theme="@style/JarvisWatchTheme" android:icon="@drawable/ic_watch" android:allowBackup="false" android:usesCleartextTraffic="false">
+    <meta-data android:name="com.google.android.wearable.standalone" android:value="false" />
+    <activity android:name=".WatchActivity" android:exported="true" android:launchMode="singleTop">
+      <intent-filter><action android:name="android.intent.action.MAIN" /><category android:name="android.intent.category.LAUNCHER" /></intent-filter>
+    </activity>
+    <service android:name=".WatchVoiceService" android:exported="false" android:foregroundServiceType="microphone|mediaPlayback" />
+    <service android:name=".WatchKeyListener" android:exported="true"><intent-filter><action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" /><data android:scheme="wear" android:host="*" android:pathPrefix="/jarvis/watch/v2/key-request" /></intent-filter></service>
+    <activity android:name=".AppUpdatesActivity" android:exported="false" android:taskAffinity="" />
+    <activity android:name=".WatchToolsActivity" android:exported="false" />
+    <service android:name=".AppUpdateJob" android:exported="false" android:permission="android.permission.BIND_JOB_SERVICE" />
+    <receiver android:name=".AppUpdateResult" android:exported="false" />
+    <service android:name=".JarvisTile" android:exported="true" android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+      <intent-filter><action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" /></intent-filter>
+      <meta-data android:name="androidx.wear.tiles.PREVIEW" android:resource="@drawable/ic_watch" />
+    </service>
+  </application>
+</manifest>
