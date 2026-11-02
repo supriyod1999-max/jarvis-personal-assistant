@@ -45,6 +45,8 @@ __pycache__/
 /public/downloads/
 /public/agent-town/
 /android/local.properties
+/android/app/src/main/assets/wake/tokens.txt
+*.download
 /android/.gradle/
 /android/.avd/
 /android/**/build/

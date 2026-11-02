@@ -71,7 +71,7 @@ Install [uv](https://docs.astral.sh/uv/getting-started/installation/), then choo
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/setup-kokoro.ps1
 ```
 
-In the unlocked primary workspace, select the installed engine under **Settings → Assistant** and choose **Apply & restart voice**. For microphone input, install compatible OpenWhispr/Whisper prerequisites and run `scripts/setup-input.ps1`. The [voice guide](docs/VOICE-SETUP.md) covers CPU/GPU checks, the current shared CUDA-runtime prerequisite, Chatterbox, model locations, Talk/wake controls, and troubleshooting. No voice reference or credentials from another installation are needed.
+In the unlocked primary workspace, select the installed engine under **Settings → Voice & AI** and choose **Apply & restart voice**. For microphone input, install compatible OpenWhispr/Whisper prerequisites and run `scripts/setup-input.ps1`. The [voice guide](docs/VOICE-SETUP.md) covers CPU/GPU checks, the current shared CUDA-runtime prerequisite, Chatterbox, model locations, Talk/wake controls, and troubleshooting. No voice reference or credentials from another installation are needed.
 
 ### Connect your phone and watch
 

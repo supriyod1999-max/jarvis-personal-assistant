@@ -12,7 +12,7 @@ Tokens stay server-side in ignored encrypted credential files. Do not copy token
 
 Follow the complete [local voice setup guide](VOICE-SETUP.md) for CPU/GPU Kokoro, Chatterbox, Whisper, checks, and current CUDA runtime prerequisites. No voice weights, Python environment, GPU libraries, recordings, or reference voice are shipped. The scripts install Python 3.11.15 into ignored local storage and preserve package/model pins. This export does not install GPU drivers.
 
-Whisper input uses `scripts/setup-input.ps1` to copy the local runtime from an installed OpenWhispr and checks the Base model hash. It expects a downloaded model in OpenWhispr's cache. Do not restore browser SpeechRecognition as a fallback. Chatterbox is an explicit alternative requiring its own environment and an owner-supplied permitted reference; no private reference audio is included. Do not run competing voice models on the GPU.
+Whisper input uses `scripts/setup-input.ps1` to copy the local runtime from an installed OpenWhispr and checks the Base model hash. It expects a downloaded model in OpenWhispr's cache. Do not restore browser SpeechRecognition as a fallback. Chatterbox is an explicit alternative using its own environment and an optional owner-supplied permitted reference; no private reference audio is included. Do not run competing voice models on the GPU.
 
 Use Settings to select an installed engine and **Apply & restart voice**. Only that selected engine should warm. Wake listening is off on launch. Speech and GPU setup have not been freshly installed or device-validated as part of this source export.
 
